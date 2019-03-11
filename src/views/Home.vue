@@ -32,7 +32,7 @@
                   v-on:change="updateSamtykke"
                 ></v-switch>
                 <v-progress-circular
-                  v-if="!loaded"
+                  v-else
                   value="0"
                   size="24"
                   indeterminate
