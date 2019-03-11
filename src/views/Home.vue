@@ -26,11 +26,17 @@
                 <h3>Har du spørsmål?</h3>
                 <p>Ta kontakt med administrasjonen på din skole hvis du lurer på noe.</p>
                 <v-switch
-                  large
+                  v-if="loaded"
                   v-model="samtykke1"
                   :label="samtykke1 ? 'Godtatt' : 'Avslått'"
                   v-on:change="updateSamtykke"
                 ></v-switch>
+                <v-progress-circular
+                  v-if="!loaded"
+                  value="0"
+                  size="24"
+                  indeterminate
+                ></v-progress-circular>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -55,6 +61,7 @@ export default {
   },
   data: () => ({
     samtykke1: false,
+    loaded: false,
     snackbar: {
       active: false,
       message: false,
@@ -71,6 +78,7 @@ export default {
       try {
         await this.$http.put(config.studentsApiUrl, { state: val }, this.accessToken)
         this.notification('Lagret data')
+        this.loaded = true
       } catch (error) {
         this.notification(`Fikk ikke lagret data: ${error.message}`, 'error')
       }
