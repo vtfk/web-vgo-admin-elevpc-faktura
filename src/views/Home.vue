@@ -103,9 +103,7 @@ export default {
   },
   async created () {
     try {
-      console.log(this.accessToken)
       const { data } = await this.$http.get(config.studentsApiUrl, this.accessToken)
-      console.log(data)
       if (data.length !== 0) {
         this.samtykke1 = data[0].state
         this.id = data[0]._id
