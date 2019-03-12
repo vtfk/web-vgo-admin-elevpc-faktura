@@ -12,19 +12,26 @@
                 <h3 class="headline">Samtykke til bruk av bilder</h3>
               </v-card-title>
               <v-card-text class="grey--text">
-                <h4>Vil du tillate at vi bruker bilder og filmer av deg som blir tatt på vegne av Telemark fylkeskommune?</h4><br/>
-                <p>Ved å godta godtar du at fylkeskommunen kan ta bilder og filmer av deg i skolesammenheng mens du er elev ved skolen.</p>
-                <p>Du godtar også at bildene vi tar av deg kan publiseres i sammenhenger som har med videregående opplæring å gjøre.<br/>
-                Eksempler på bruk av bildene er på skolenes og fylkeskommunens hjemmesider, i sosiale medier, i presentasjoner eller i materiell som for eksempel brosjyrer.</p>
-                <p>Bildene kan bli brukt i sammenhenger som har med videregående opplæring å gjøre, etter at du ikke lenger er elev ved skolen.</p>
-                <p>Det er fylkeskommunen som har ansvaret for de offentlige videregående skolene i fylket.</p>
-                <h3>Alle rettigheter</h3>
-                <p>Telemark fylkeskommune har alle rettigheter til bildematerialet, inkludert rett til publisering av bildene.</p>
-                <p>Samtykket overtas av den sammenslåtte Vestfold og Telemark fylkeskommune fra 1. januar 2020.</p>
-                <h3>Du kan alltid trekke tilbake samtykket!</h3>
-                <p>Samtykket gjelder til det blir trukket tilbake. Hvis du ønsker å trekke samtykket tar du kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
-                <h3>Har du spørsmål?</h3>
-                <p>Ta kontakt med administrasjonen på din skole hvis du lurer på noe.</p>
+                <h4>Vil du tillate at vi bruker bilder og filmer av deg som blir tatt på vegne av Telemark fylkeskommune?</h4>
+                <br />
+                <div v-if="readMore">
+                  <a @click="toggleReadMore()" style="color: #6ac4ae;">les mer ...</a>
+                </div>
+                <div v-else>
+                  <p>Ved å godta godtar du at fylkeskommunen kan ta bilder og filmer av deg i skolesammenheng mens du er elev ved skolen.</p>
+                  <p>Du godtar også at bildene vi tar av deg kan publiseres i sammenhenger som har med videregående opplæring å gjøre.<br/>
+                  Eksempler på bruk av bildene er på skolenes og fylkeskommunens hjemmesider, i sosiale medier, i presentasjoner eller i materiell som for eksempel brosjyrer.</p>
+                  <p>Bildene kan bli brukt i sammenhenger som har med videregående opplæring å gjøre, etter at du ikke lenger er elev ved skolen.</p>
+                  <p>Det er fylkeskommunen som har ansvaret for de offentlige videregående skolene i fylket.</p>
+                  <h3>Alle rettigheter</h3>
+                  <p>Telemark fylkeskommune har alle rettigheter til bildematerialet, inkludert rett til publisering av bildene.</p>
+                  <p>Samtykket overtas av den sammenslåtte Vestfold og Telemark fylkeskommune fra 1. januar 2020.</p>
+                  <h3>Du kan alltid trekke tilbake samtykket!</h3>
+                  <p>Samtykket gjelder til det blir trukket tilbake. Hvis du ønsker å trekke samtykket tar du kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
+                  <h3>Har du spørsmål?</h3>
+                  <p>Ta kontakt med administrasjonen på din skole hvis du lurer på noe.</p>
+                  <a @click="toggleReadMore()" style="color: #6ac4ae;">les mindre ...</a>
+                </div>
                 <v-switch
                   v-if="loaded"
                   v-model="samtykke1"
@@ -62,6 +69,8 @@ export default {
   data: () => ({
     samtykke1: false,
     loaded: false,
+    readMore: true,
+    id: false,
     snackbar: {
       active: false,
       message: false,
@@ -74,13 +83,21 @@ export default {
       this.snackbar.type = type
       this.snackbar.active = true
     },
+    toggleReadMore () {
+      this.readMore = !this.readMore
+    },
     async updateSamtykke (val) {
       try {
-        await this.$http.put(config.studentsApiUrl, { state: val }, this.accessToken)
-        this.notification('Lagret data')
+        if (!this.id) {
+          const { data } = await this.$http.put(config.studentsApiUrl, { state: val }, this.accessToken)
+          this.id = data._id
+        } else {
+          await this.$http.post(`${config.studentsApiUrl}/${this.id}`, { state: val }, this.accessToken)
+        }
+        this.notification('Opplysninger oppdatert')
         this.loaded = true
       } catch (error) {
-        this.notification(`Fikk ikke lagret data: ${error.message}`, 'error')
+        this.notification(`Fikk ikke oppdatert opplysninger: ${error.message}`, 'error')
       }
     }
   },
@@ -88,7 +105,11 @@ export default {
     try {
       console.log(this.accessToken)
       const { data } = await this.$http.get(config.studentsApiUrl, this.accessToken)
-      this.samtykke1 = data.length !== 0
+      console.log(data)
+      if (data.length !== 0) {
+        this.samtykke1 = data[0].state
+        this.id = data[0]._id
+      }
       this.loaded = true
     } catch (error) {
       this.notification(error.message, 'error')
@@ -100,5 +121,8 @@ export default {
 <style>
 .grey--text {
   font-size: 18px;
+}
+.read-more {
+  display: none;
 }
 </style>
