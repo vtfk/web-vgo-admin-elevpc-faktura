@@ -10,7 +10,7 @@ In the left-hand navigation pane go to *Azure Active Directory* -> *App registra
 | ------- | ----- |
 | Name    | Your app name |
 | Application type | Web app / API |
-| Sign-on URL | https://your-domain.com/ |
+| Sign-on URL | https://your-domain.com/ - for testing use http://localhost:8080 |
 
 Save the `client-id` from app registration.
 
