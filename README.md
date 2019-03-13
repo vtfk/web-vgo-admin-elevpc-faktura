@@ -42,6 +42,10 @@ npm install
 npm run serve
 ```
 
+## Screenshot
+
+![Screenshot](screenshot.png "Screenshot")
+
 # License
 
 [MIT](LICENSE)
