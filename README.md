@@ -42,6 +42,12 @@ npm install
 npm run serve
 ```
 
+## Theme config
+
+Theme colors can be changed in [src/plugins/vuetify.js](src/plugins/vuetify.js)
+
+Logo and images can be changed in [public/img/icons](public/img/icons)
+
 ## Screenshot
 
 ![Screenshot](screenshot.png "Screenshot")
