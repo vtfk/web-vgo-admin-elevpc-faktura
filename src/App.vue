@@ -33,11 +33,9 @@
       </router-link>
 
         <v-menu offset-x full-width>
-          <v-btn icon v-if="$adal.isAuthenticated()" slot="activator">
-            <v-badge class="small-badge" top color="accent" overlap>
-              <!-- <v-icon slot="badge">done</v-icon> -->
-              <v-icon>person</v-icon>
-             </v-badge>
+          <v-btn depressed flat small class="profile-btn" v-if="$adal.isAuthenticated()" slot="activator">
+            <v-icon>person</v-icon>
+            <span class="hidden-md-and-down">{{ name }}</span>
           </v-btn>
           <v-card>
             <v-list>
@@ -99,5 +97,9 @@ a {
   height: 12px;
   width: 12px;
   padding: 8px;
+}
+.profile-btn {
+  font-weight: normal;
+  min-width: unset;
 }
 </style>

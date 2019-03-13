@@ -12,12 +12,11 @@
                 <h3 class="headline">Spørsmål og svar</h3>
               </v-card-title>
               <v-card-text>
-                <p>Nedenfor finner du ofte stilte spørsmål, svar og hurtigtaster.</p>
+                <p>Nedenfor finner du ofte stilte spørsmål</p>
                 <p>Feil, mangler og ønsker kan du sende til <a href="mailto:post.opplaring@t-fk.no" title="Send e-post til post.opplaring@t-fk.no" target="_blank">post.opplaring@t-fk.no</a></p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Nostrilis tickler educated derek griffiths pencil soup strainer? Graeme souness basil fawlty waxy gurn stiff upper lip kris kristofferson.
-                tony stark, leslie phillips timothy dalton driving gloves tony stark kris kristofferson.
-                graeme souness stiff upper lip waxy gurn basil fawlty andrew weatherall prostate cancer borat cappuccino collector?</p>
+                <h6 class="title">Trekke tilbake samtykke</h6>
+                <br/>
+                <p>Hvis du ønsker å trekke samtykket velg "avslå" <a href="/">her</a>, og ta kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
               </v-card-text>
             </v-card>
           </v-flex>
