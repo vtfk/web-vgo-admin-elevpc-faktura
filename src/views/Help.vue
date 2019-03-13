@@ -13,10 +13,12 @@
               </v-card-title>
               <v-card-text>
                 <p>Nedenfor finner du ofte stilte spørsmål</p>
+                <h6 class="title">Feil, mangler eller ønsker</h6>
+                <br/>
                 <p>Feil, mangler og ønsker kan du sende til <a href="mailto:post.opplaring@t-fk.no" title="Send e-post til post.opplaring@t-fk.no" target="_blank">post.opplaring@t-fk.no</a></p>
                 <h6 class="title">Trekke tilbake samtykke</h6>
                 <br/>
-                <p>Hvis du ønsker å trekke samtykket velg "avslå" <a href="/">her</a>, og ta kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
+                <p>Hvis du ønsker å trekke samtykket velg "avslå" <a href="/">her</a>, og ta kontakt med kontoret på skolen din hvis du ønsker bildene slettet.</p>
               </v-card-text>
             </v-card>
           </v-flex>
