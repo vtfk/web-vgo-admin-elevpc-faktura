@@ -14,7 +14,7 @@ In the left-hand navigation pane go to *Azure Active Directory* -> *App registra
 
 Save the `client-id` from app registration.
 
-## 3. Deploy to [Now](https://zeit.co/now)
+## Deploy to [Now](https://zeit.co/now)
 
 ### Set secrets
 
