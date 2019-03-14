@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-toolbar color="secondary" app>
-      <router-link to="/">
-        <v-toolbar-side-icon>
+      <router-link to="/" aria-label="Gå til hjem">
+        <v-toolbar-side-icon aria-label="Gå til hjem">
           <v-img
             :src="require('./assets/logo.png')"
             contain
@@ -14,18 +14,18 @@
 
       <v-spacer></v-spacer>
 
-      <router-link to="/">
+      <router-link to="/" aria-label="Gå til hjem">
         <v-tooltip bottom>
-          <v-btn icon slot="activator">
+          <v-btn aria-label="Hjem" icon slot="activator">
             <v-icon>home</v-icon>
           </v-btn>
           Hjem
         </v-tooltip>
       </router-link>
 
-      <router-link to="/help">
+      <router-link to="/help" aria-label="Gå til hjelp">
         <v-tooltip bottom>
-          <v-btn icon slot="activator">
+          <v-btn aria-label="Hjelp" icon slot="activator">
             <v-icon>help</v-icon>
           </v-btn>
           Hjelp
@@ -33,7 +33,7 @@
       </router-link>
 
         <v-menu offset-x full-width>
-          <v-btn depressed flat small class="profile-btn" v-if="$adal.isAuthenticated()" slot="activator">
+          <v-btn depressed flat small aria-label="Profil" class="profile-btn" v-if="$adal.isAuthenticated()" slot="activator">
             <v-icon>person</v-icon>
             <span class="hidden-md-and-down">{{ name }}</span>
           </v-btn>

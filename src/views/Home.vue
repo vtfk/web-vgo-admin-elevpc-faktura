@@ -15,7 +15,7 @@
                 <h4>Vil du tillate at vi bruker bilder og filmer av deg som blir tatt på vegne av Telemark fylkeskommune?</h4>
                 <br />
                 <div v-if="readMore">
-                  <a @click="toggleReadMore()" style="color: #6ac4ae;">les mer ...</a>
+                  <a aria-label="les mer" @click="toggleReadMore()" style="color: #6ac4ae;">les mer ...</a>
                 </div>
                 <div v-else>
                   <p>Ved å godta godtar du at fylkeskommunen kan ta bilder og filmer av deg i skolesammenheng mens du er elev ved skolen.</p>
@@ -30,13 +30,14 @@
                   <p>Samtykket gjelder til det blir trukket tilbake. Hvis du ønsker å trekke samtykket tar du kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
                   <h3>Har du spørsmål?</h3>
                   <p>Ta kontakt med administrasjonen på din skole hvis du lurer på noe.</p>
-                  <a @click="toggleReadMore()" style="color: #6ac4ae;">les mindre ...</a>
+                  <a aria-label="les mindre" @click="toggleReadMore()" style="color: #6ac4ae;">les mindre ...</a>
                 </div>
                 <v-switch
                   v-if="loaded"
                   v-model="samtykke1"
                   :label="samtykke1 ? 'Godtatt' : 'Avslått'"
                   v-on:change="updateSamtykke"
+                  aria-label="Godta eller avslå samtykke"
                 ></v-switch>
                 <v-progress-circular
                   v-else
