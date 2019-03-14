@@ -1,6 +1,6 @@
 {
-  "name": "MinElev innsyn",
-  "short_name": "Innsyn",
+  "name": "web-vgo-minelev-portal",
+  "short_name": "minelev-portal",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
