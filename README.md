@@ -35,6 +35,9 @@ now && now alias
 Change the config by creating a `.env` file or set it directly in [config.js](config.js)
 
 ``` bash
+# Clone repo
+git clone https://github.com/vtfk/web-vgo-minelev-portal
+
 # install dependencies
 npm install
 
@@ -44,7 +47,10 @@ npm run serve
 
 ## Theme config
 
-Theme colors can be changed in [src/plugins/vuetify.js](src/plugins/vuetify.js)
+Theme colors can be changed by setting following envs to preferred hex value
+
+`COLOR_PRIMARY, COLOR_SECONDARY, COLOR_ACCENT, COLOR_ERROR, COLOR_INFO,
+COLOR_SUCCESS, COLOR_WARNING`
 
 Logo and images can be changed in [public/img/icons](public/img/icons)
 
