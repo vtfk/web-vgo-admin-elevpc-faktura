@@ -9,42 +9,28 @@
             </v-breadcrumbs>
             <v-card>
               <v-card-title primary-title>
-                <h3 class="headline">Samtykke til bruk av bilder</h3>
+                <h3 class="headline">Administrasjon - fakturagrunnlag til elev-pc</h3>
               </v-card-title>
               <v-card-text class="grey--text">
-                <h4>Vil du tillate at vi bruker bilder og filmer av deg som blir tatt på vegne av Telemark fylkeskommune?</h4>
+                <p>En vakker, beskrivende tekst. Kanskje noen blomster?</p>
+                <p>Det er <b>{{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}</b> til nedlasting.</p>
+                <v-btn
+                  color="accent"
+                  class="white--text"
+                  :disabled="newDataLength === 0"
+                  @click="downloadBatch"
+                >
+                  Last ned {{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}
+                  <v-icon right dark>cloud_download</v-icon>
+                </v-btn>
                 <br />
-                <div v-if="readMore">
-                  <a aria-label="les mer" @click="toggleReadMore()" style="color: #6ac4ae;">les mer ...</a>
+                <br />
+                <h3>Historikk</h3>
+                <div v-for="(data, i) in historicalData" :key="i">
+                  <ul>
+                    <li @click="downloadBatch(data.batchId)">{{ new Date(data.batchCreated).toLocaleString() }}</li>
+                  </ul>
                 </div>
-                <div v-else>
-                  <p>Ved å godta godtar du at fylkeskommunen kan ta bilder og filmer av deg i skolesammenheng mens du er elev ved skolen.</p>
-                  <p>Du godtar også at bildene vi tar av deg kan publiseres i sammenhenger som har med videregående opplæring å gjøre.<br/>
-                  Eksempler på bruk av bildene er på skolenes og fylkeskommunens hjemmesider, i sosiale medier, i presentasjoner eller i materiell som for eksempel brosjyrer.</p>
-                  <p>Bildene kan bli brukt i sammenhenger som har med videregående opplæring å gjøre, etter at du ikke lenger er elev ved skolen.</p>
-                  <p>Det er fylkeskommunen som har ansvaret for de offentlige videregående skolene i fylket.</p>
-                  <h3>Alle rettigheter</h3>
-                  <p>Telemark fylkeskommune har alle rettigheter til bildematerialet, inkludert rett til publisering av bildene.</p>
-                  <p>Samtykket overtas av den sammenslåtte Vestfold og Telemark fylkeskommune fra 1. januar 2020.</p>
-                  <h3>Du kan alltid trekke tilbake samtykket!</h3>
-                  <p>Samtykket gjelder til det blir trukket tilbake. Hvis du ønsker å trekke samtykket tar du kontakt med kontoret på skolen din. Bildene vil da bli slettet.</p>
-                  <h3>Har du spørsmål?</h3>
-                  <p>Ta kontakt med administrasjonen på din skole hvis du lurer på noe.</p>
-                  <a aria-label="les mindre" @click="toggleReadMore()" style="color: #6ac4ae;">les mindre ...</a>
-                </div>
-                <v-switch
-                  v-if="loaded"
-                  v-model="samtykke1"
-                  :label="samtykke1 ? 'Godtatt' : 'Avslått'"
-                  v-on:change="updateSamtykke"
-                  aria-label="Godta eller avslå samtykke"
-                ></v-switch>
-                <v-progress-circular
-                  v-else
-                  value="0"
-                  size="24"
-                  indeterminate
-                ></v-progress-circular>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -68,15 +54,13 @@ export default {
     }
   },
   data: () => ({
-    samtykke1: false,
-    loaded: false,
-    readMore: true,
-    id: false,
     snackbar: {
       active: false,
       message: false,
       type: false
-    }
+    },
+    newDataLength: 0,
+    historicalData: []
   }),
   methods: {
     notification (msg, type = 'info') {
@@ -84,32 +68,36 @@ export default {
       this.snackbar.type = type
       this.snackbar.active = true
     },
-    toggleReadMore () {
-      this.readMore = !this.readMore
-    },
-    async updateSamtykke (val) {
+    downloadBatch: async function (batchId) {
       try {
-        if (!this.id) {
-          const { data } = await this.$http.put(config.studentsApiUrl, { state: val }, this.accessToken)
-          this.id = data._id
-        } else {
-          await this.$http.post(`${config.studentsApiUrl}/${this.id}`, { state: val }, this.accessToken)
+        const batchUrlPath = batchId ? `/batches/${batchId}/download` : '/batches/download'
+        const options = {
+          url: config.dataApiUrl + batchUrlPath,
+          ...this.accessToken,
+          responseType: 'blob'
         }
-        this.notification('Opplysninger oppdatert')
-        this.loaded = true
+        console.log(options)
+        const response = await this.$http(options)
+        console.log(response)
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', `fakturagrunnlag-${new Date().toISOString()}.csv`)
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
       } catch (error) {
-        this.notification(`Fikk ikke oppdatert opplysninger: ${error.message}`, 'error')
+        this.notification(error.message, 'error')
       }
     }
   },
   async created () {
     try {
-      const { data } = await this.$http.get(config.studentsApiUrl, this.accessToken)
-      if (data.length !== 0) {
-        this.samtykke1 = data[0].state
-        this.id = data[0]._id
-      }
-      this.loaded = true
+      const { data: newDataLength } = await this.$http.get(config.dataApiUrl + '/new', this.accessToken)
+      this.newDataLength = newDataLength
+      const { data: historicalData } = await this.$http.get(config.dataApiUrl + '/batches', this.accessToken)
+      this.historicalData = historicalData
+      console.log(historicalData)
     } catch (error) {
       this.notification(error.message, 'error')
     }
@@ -121,7 +109,7 @@ export default {
 .grey--text {
   font-size: 18px;
 }
-.read-more {
-  display: none;
+ul li {
+  cursor: pointer;
 }
 </style>

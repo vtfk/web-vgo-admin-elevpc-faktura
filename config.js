@@ -13,7 +13,7 @@ module.exports = {
     cacheLocation: 'localStorage'
   },
   // Students API base URL
-  studentsApiUrl: process.env.STUDENTS_API_URL || 'https://samtykker.api.minelev.no',
+  dataApiUrl: process.env.STUDENTS_API_URL || 'https://faktura.api.service.t-fk.no',
   theme: {
     primary: process.env.COLOR_PRIMARY || '#000000',
     secondary: process.env.COLOR_SECONDARY || '#ffd520',

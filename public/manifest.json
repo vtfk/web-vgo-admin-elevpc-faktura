@@ -1,6 +1,6 @@
 {
-  "name": "web-vgo-minelev-portal",
-  "short_name": "minelev-portal",
+  "name": "admin-faktura",
+  "short_name": "adminfaktura",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

@@ -5,15 +5,15 @@
     "env": {
       "VUE_APP_TENANT_ID": "@moa-tenant-id",
       "VUE_APP_CLIENT_ID": "@minelev-portal-client-id",
-      "VUE_APP_REDIRECT_URL": "https://meg.minelev.no",
-      "STUDENTS_API_URL": "https://samtykker.api.minelev.no/"
+      "VUE_APP_REDIRECT_URL": "https://admin.faktura.t-fk.no",
+      "STUDENTS_API_URL": "https://faktura.api.service.t-fk.no"
     }
   },
   "env": {
     "VUE_APP_TENANT_ID": "@moa-tenant-id",
     "VUE_APP_CLIENT_ID": "@minelev-portal-client-id",
-    "VUE_APP_REDIRECT_URL": "https://meg.minelev.no",
-    "STUDENTS_API_URL": "https://samtykker.api.minelev.no/"
+    "VUE_APP_REDIRECT_URL": "https://admin.faktura.t-fk.no",
+    "STUDENTS_API_URL": "https://faktura.api.service.t-fk.no"
   },
   "builds": [
     { "src": "package.json", "use": "@now/static-build" }
@@ -30,7 +30,11 @@
     {"src": "^/service-worker.js", "headers": {"cache-control": "s-maxage=0"}, "dest": "/service-worker.js"},
     {"src": "^/(.*).worker.js", "dest": "/$1.worker.js"},
     {"src": "^/(.*).worker.js.map", "dest": "/$1.worker.js.map"},
-    {"src": ".*", "dest": "/index.html"}
+    {"src": ".*", "dest": "/index.html", "headers": {
+      "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://faktura.api.service.t-fk.no object-src 'none'; frame-ancestors 'none'",
+      "Strict-Transport-Security": "max-age=63072000;",
+      "X-Frame-Options": "DENY"
+    }}
   ],
-  "alias": "meg.minelev.no"
+  "alias": "admin.faktura.t-fk.no"
 }
