@@ -28,7 +28,7 @@
                 <h3>Historikk</h3>
                 <div v-for="(data, i) in historicalData" :key="i">
                   <ul>
-                    <li @click="downloadBatch(data.batchId)">{{ new Date(data.batchCreated).toLocaleString() }}</li>
+                    <li @click="downloadBatch(null, data.batchId)">{{ new Date(data.batchCreated).toLocaleString() }}</li>
                   </ul>
                 </div>
               </v-card-text>
@@ -68,7 +68,7 @@ export default {
       this.snackbar.type = type
       this.snackbar.active = true
     },
-    downloadBatch: async function (batchId) {
+    downloadBatch: async function (event, batchId) {
       try {
         const batchUrlPath = batchId ? `/batches/${batchId}/download` : '/batches/download'
         const options = {
@@ -76,9 +76,7 @@ export default {
           ...this.accessToken,
           responseType: 'blob'
         }
-        console.log(options)
         const response = await this.$http(options)
-        console.log(response)
         const url = window.URL.createObjectURL(new Blob([response.data]))
         const link = document.createElement('a')
         link.href = url
@@ -97,7 +95,6 @@ export default {
       this.newDataLength = newDataLength
       const { data: historicalData } = await this.$http.get(config.dataApiUrl + '/batches', this.accessToken)
       this.historicalData = historicalData
-      console.log(historicalData)
     } catch (error) {
       this.notification(error.message, 'error')
     }
