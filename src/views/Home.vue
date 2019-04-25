@@ -13,23 +13,30 @@
               </v-card-title>
               <v-card-text class="grey--text">
                 <p>En vakker, beskrivende tekst. Kanskje noen blomster?</p>
-                <p>Det er <b>{{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}</b> til nedlasting.</p>
-                <v-btn
+                <v-progress-circular
+                  indeterminate
                   color="accent"
-                  class="white--text"
-                  :disabled="newDataLength === 0"
-                  @click="downloadBatch"
-                >
-                  Last ned {{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}
-                  <v-icon right dark>cloud_download</v-icon>
-                </v-btn>
-                <br />
-                <br />
-                <h3>Historikk</h3>
-                <div v-for="(data, i) in historicalData" :key="i">
-                  <ul>
-                    <li @click="downloadBatch(null, data.batchId)">{{ new Date(data.batchCreated).toLocaleString() }}</li>
-                  </ul>
+                  v-if="!loaded"
+                ></v-progress-circular>
+                <div v-else>
+                  <p>Det er <b>{{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}</b> til nedlasting.</p>
+                  <v-btn
+                    color="accent"
+                    class="white--text"
+                    :disabled="newDataLength === 0"
+                    @click="downloadBatch"
+                  >
+                    Last ned {{newDataLength}} faktura{{newDataLength === 1 ? '' : 'er'}}
+                    <v-icon right dark>cloud_download</v-icon>
+                  </v-btn>
+                  <br />
+                  <br />
+                  <h3>Historikk</h3>
+                  <div v-for="(data, i) in historicalData" :key="i">
+                    <ul>
+                      <li @click="downloadBatch(null, data.batchId)">{{ new Date(data.batchCreated).toLocaleString() }}</li>
+                    </ul>
+                  </div>
                 </div>
               </v-card-text>
             </v-card>
@@ -60,7 +67,8 @@ export default {
       type: false
     },
     newDataLength: 0,
-    historicalData: []
+    historicalData: [],
+    loaded: false
   }),
   methods: {
     notification (msg, type = 'info') {
@@ -84,20 +92,25 @@ export default {
         document.body.appendChild(link)
         link.click()
         link.remove()
+        this.updateBatch()
+      } catch (error) {
+        this.notification(error.message, 'error')
+      }
+    },
+    updateBatch: async function () {
+      try {
+        const { data: newDataLength } = await this.$http.get(config.dataApiUrl + '/new', this.accessToken)
+        this.newDataLength = newDataLength
+        const { data: historicalData } = await this.$http.get(config.dataApiUrl + '/batches', this.accessToken)
+        this.historicalData = historicalData
+        this.loaded = true
       } catch (error) {
         this.notification(error.message, 'error')
       }
     }
   },
   async created () {
-    try {
-      const { data: newDataLength } = await this.$http.get(config.dataApiUrl + '/new', this.accessToken)
-      this.newDataLength = newDataLength
-      const { data: historicalData } = await this.$http.get(config.dataApiUrl + '/batches', this.accessToken)
-      this.historicalData = historicalData
-    } catch (error) {
-      this.notification(error.message, 'error')
-    }
+    await this.updateBatch()
   }
 }
 </script>
