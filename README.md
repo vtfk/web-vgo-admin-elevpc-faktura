@@ -1,4 +1,4 @@
-# web-vgo-minelev-portal
+# web-vgo-admin-elevpc-faktura
 
 ## Azure authentication setup
 
