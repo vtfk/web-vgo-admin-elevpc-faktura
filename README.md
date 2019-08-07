@@ -56,7 +56,6 @@ Logo and images can be changed in [public/img/icons](public/img/icons)
 
 ## Screenshot
 
-![Screenshot](screenshot.png "Screenshot")
 
 # License
 
