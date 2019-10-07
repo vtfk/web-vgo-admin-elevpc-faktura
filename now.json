@@ -3,14 +3,14 @@
   "version": 2,
   "build": {
     "env": {
-      "VUE_APP_TENANT_ID": "@moa_tenant_id",
+      "VUE_APP_TENANT_ID": "vtfk.onmicrosoft.com",
       "VUE_APP_CLIENT_ID": "@web_admin_faktura_client_id",
       "VUE_APP_REDIRECT_URL": "https://admin.faktura.service.t-fk.no",
       "STUDENTS_API_URL": "https://faktura.api.service.t-fk.no"
     }
   },
   "env": {
-    "VUE_APP_TENANT_ID": "@moa_tenant_id",
+    "VUE_APP_TENANT_ID": "vtfk.onmicrosoft.com",
     "VUE_APP_CLIENT_ID": "@web_admin_faktura_client_id",
     "VUE_APP_REDIRECT_URL": "https://admin.faktura.service.t-fk.no",
     "STUDENTS_API_URL": "https://faktura.api.service.t-fk.no"

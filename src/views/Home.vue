@@ -12,7 +12,6 @@
                 <h3 class="headline">Administrasjon - fakturagrunnlag til elev-pc</h3>
               </v-card-title>
               <v-card-text class="grey--text">
-                <p>En vakker, beskrivende tekst. Kanskje noen blomster?</p>
                 <v-progress-circular
                   indeterminate
                   color="accent"
