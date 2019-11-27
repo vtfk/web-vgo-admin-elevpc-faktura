@@ -34,7 +34,7 @@
     "@vue/eslint-config-standard": "4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "eslint": "6.7.1",
-    "eslint-plugin-vue": "5.2.2",
+    "eslint-plugin-vue": "6.0.1",
     "jest": "24.9.0",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",
