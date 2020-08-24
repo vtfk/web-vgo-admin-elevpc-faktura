@@ -36,7 +36,7 @@
     "eslint": "6.7.1",
     "eslint-plugin-vue": "6.0.1",
     "jest": "24.9.0",
-    "stylus": "0.54.7",
+    "stylus": "0.54.8",
     "stylus-loader": "3.0.2",
     "vue-cli-plugin-vuetify": "2.0.2",
     "vue-template-compiler": "2.6.10",
